@@ -2,9 +2,9 @@
 Project name: Magical room 
 Student number: 106740
 Code has been written for educational purposes. 
-I've created the model in Blender for different course project - LM4, and the textures were provided by the teacher.
-Project2 for ICG class, done using Threejs-journey course by Bruno Simon, youtube(Working with Three.js Particle Systems - They're AWESOME!) 
-by DesignCourse, a lot of stackoverflow, examples from ICG class and three.js documentation. 
+I've created the model in Blender for different course project - LM4, the textures are downloaded from https://ambientcg.com/
+Project2 for ICG class, done using Threejs-journey course by Bruno Simon, youtube, 
+a lot of stackoverflow, examples from ICG class and three.js documentation. 
 */
 
 /*--------------------------- IMPORT --------------------------------------------------------------------  */
@@ -26,7 +26,6 @@ const parameters = {color: 0xff0000} //instantiate variable for changing color i
 
 /*---------- LOADING BAR --------- learned with threejs-journey course */
 const loadingBarElement = document.querySelector('.loading-bar') //classic JavaScript function to get an element and put into variable
-
 
 const loadingManager = new THREE.LoadingManager(
     //Loading
@@ -83,30 +82,33 @@ gltfLoader.load(
         scene.add(gltf.scene)
     }) 
     gltfLoader.load(
-        './assets/models/book2.glb',
-        (gltf)=>
-        {
-            gltf.scene.position.set(0,0,0)
-            gltf.scene.scale.set(2,2,2)
-            scene.add(gltf.scene) 
-        })  
-    gltfLoader.load(
-        './assets/models/books.glb',
-        (gltf)=>
-        {
-            gltf.scene.position.set(0,0,0)
-            gltf.scene.scale.set(2,2,2)
-            scene.add(gltf.scene) 
-        })  
-  /*  gltfLoader.load(
         './assets/models/bookstore.glb',
         (gltf)=>
         {
             gltf.scene.position.set(0,0,0)
             gltf.scene.scale.set(2,2,2)
+            gltf.scene.traverse((model) =>{
+                if(model.isMesh)
+                {  
+                model.material.map = wallColorTexture,
+                model.material.normalMap = wallNormalTexture, 
+                model.material.aolMap = wallAbientOcclusionTexture,
+                model.material.roughnessMap = wallRoughnessTexture,
+                model.material.displacementlMap = wallDisplacementTexture;  
+                }
+            })
             scene.add(gltf.scene) 
-        }) 
-        */ 
+        })  
+    gltfLoader.load(
+        './assets/models/book2.glb',
+        (gltf)=>
+        {
+            gltf.scene.position.set(0,0,0)
+            gltf.scene.scale.set(2,2,2)
+           
+            scene.add(gltf.scene) 
+        })  
+
     gltfLoader.load(
         './assets/models/floor.glb',
         (gltf)=>
@@ -179,10 +181,35 @@ gltfLoader.load(
             })
             scene.add(gltf.scene) 
         }) 
-
+        gltfLoader.load(
+            './assets/models/podstawka_pod_swieczke.glb',
+            (gltf)=>
+            {
+                gltf.scene.position.set(0,0,0)
+                gltf.scene.scale.set(2,2,2)
+                gltf.scene.traverse((model) =>{
+                    if(model.isMesh)
+                    {
+                    
+                    model.material.map = stonesColorTexture,
+                    model.material.normalMap = stonesNormalTexture, 
+                    model.material.aolMap = stonesAbientOcclusionTexture,
+                    model.material.roughnessMap = stonesRoughnessTexture,
+                    model.material.displacementlMap = stonesDisplacementTexture;  
+                    }
+                })
+                scene.add(gltf.scene) 
+            }) 
+         gltfLoader.load(
+            './assets/models/swieczki.glb',
+            (gltf)=>
+            {
+                gltf.scene.position.set(0,0,0)
+                gltf.scene.scale.set(2,2,2) 
+                scene.add(gltf.scene) 
+            })        
+    
           
-/*--------------------------- DEBUG --------------- */
-
 
 /*--------------------------- DEBUG -------------------------------------------------------------------- */
 
@@ -285,7 +312,6 @@ const overlayMaterial = new THREE.ShaderMaterial({
     `,
     fragmentShader: `
     uniform float uAlpha;
-
     void main()
     {
         gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
@@ -345,7 +371,6 @@ candle4Group.position.set(3.6,3.2,-4)
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)  //looks better without 
 scene.add(ambientLight)
 
-
 //Point light for the candle1
 const pointLight = new THREE.PointLight(0xffffff0, 0.2, 20)
 pointLight.position.set = (0,0,0)
@@ -371,6 +396,14 @@ candle4Group.add(pointLight4)
 Candle4Folder.add(candle4Group, 'visible')
 
 
+//test
+const rectAreaLight10 = new THREE.RectAreaLight(0xff00ff, 30, 3,3)
+rectAreaLight10.rotation.y=  Math.PI *0.5
+rectAreaLight10.position.set(1,-0.17,0.328) 
+scene.add(rectAreaLight10)
+
+
+
 
 /*---------------- WATER ----------------- */
 
@@ -390,7 +423,6 @@ const rectAreaLight2 = new THREE.RectAreaLight(0x0000ff, 30, 4,1)
 rectAreaLight2.rotation.y=  Math.PI *0.5
 rectAreaLight2.position.set(1,2.5,-4.4)
 waterGroup.add(rectAreaLight2)
-//waterFolder.add(rectAreaLight2, 'visible')
 
 
 const rectAreaLight3 = new THREE.RectAreaLight(0x0000ff, 30, 4,1) 
@@ -400,7 +432,6 @@ rectAreaLight3.rotation.x=  Math.PI *0.5
 rectAreaLight3.position.set(1.154,0.5,-1.38)
 rectAreaLight3.rotation.set(-0.5,-4.68,-1.5)
 waterGroup.add(rectAreaLight3)
-
 
 waterFolder.add(waterGroup, 'visible')
 waterFolder.add(rectAreaLight, 'intensity')  //I've got problem with putting this
@@ -464,7 +495,7 @@ scene.add(camera)
 /* CONTROLS ----------------- */
 const controls = new OrbitControls(camera, canvas)
 //controls.target.y =-2
-controls.enableDamping = true //po przesunieciu ekranu nie zatrzymuje sie on od razu tylko po chwili 
+//controls.enableDamping = true //po przesunieciu ekranu nie zatrzymuje sie on od razu tylko po chwili 
 
 
 /*--------------------------- RENDERER -------------------------------------------------------------------- */
@@ -479,22 +510,13 @@ renderer.outputEncoding = sRGBEncoding
 renderer.setSize(sizes.width,sizes.height)
 renderer.render(scene,camera) 
 
-debugObject.clearColor = '#201818'  //clear color is the property //debug Object is the container 
-renderer.setClearColor(debugObject.clearColor)  //from threejs-journey course 
-gui
-    .addColor(debugObject, 'clearColor')
-    .onChange(() =>
-    {
-        renderer.setClearColor(debugObject.clearColor)
-    })
+
 
 
 /*--------------------------- ANIMATIONS -------------------------------------------------------------------- 
 */
 const clock = new THREE.Clock() 
 let previousTime = 0 
-
-
 
 
 
