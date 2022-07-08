@@ -27,6 +27,7 @@ const parameters = {color: 0xff0000} //instantiate variable for changing color i
 /*---------- LOADING BAR --------- learned with threejs-journey course */
 const loadingBarElement = document.querySelector('.loading-bar') //classic JavaScript function to get an element and put into variable
 
+
 const loadingManager = new THREE.LoadingManager(
     //Loading
     ()=>
@@ -56,7 +57,6 @@ const ground2TextureLoader = new THREE.TextureLoader(loadingManager)
 //We have to instantiate DracoLoader before the gltf loader  //learned from threejs-journey course
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('./assets/draco/')  /*now our draco loader will use faster version with web assembly with worker   */
-
 
 const gltfLoader = new GLTFLoader() //we are instantiating the loader
 gltfLoader.setDRACOLoader(dracoLoader)  //the draco loader instance to the gltf loader 
@@ -368,7 +368,7 @@ candle4Group.position.set(3.6,3.2,-4)
 
 /*--------------------------- LIGHTS -------------------------------------------------------------------- */
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)  //looks better without 
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
 scene.add(ambientLight)
 
 //Point light for the candle1
@@ -506,7 +506,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.shadowMap.enabled = true
 renderer.shadowMap.type = THREE.PCFSoftShadowMap 
-renderer.outputEncoding = sRGBEncoding
+    renderer.outputEncoding = sRGBEncoding
 renderer.setSize(sizes.width,sizes.height)
 renderer.render(scene,camera) 
 
@@ -517,7 +517,6 @@ renderer.render(scene,camera)
 */
 const clock = new THREE.Clock() 
 let previousTime = 0 
-
 
 
 const tick = () =>  //A tick is the dequeuing of an event from the "event loop queue" and the execution of said event
