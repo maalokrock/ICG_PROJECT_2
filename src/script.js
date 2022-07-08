@@ -308,7 +308,7 @@ var object = new THREE.Mesh(sphereGeometry, sphereMaterial)
 
 //Sphere for candle1 
 const sphere1Geometry = new THREE.SphereGeometry(0.01,15,15)
-                            //radius, widthSegments, heightSegments, 
+                            //radius, widtgit hSegments, heightSegments, 
 const sphere1Material = new THREE.MeshBasicMaterial( {color: 0xffff00})
 const pointLightSphere1 = new THREE.Mesh (sphere1Geometry, sphere1Material)
 pointLightSphere1.position.set(0,0,0)
