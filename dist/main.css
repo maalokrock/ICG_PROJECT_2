@@ -1,0 +1,41 @@
+*  /*from threejs-journey course */ 
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    overflow: hidden; 
+}
+
+.webgl
+{
+    position: fixed;   /*no scroll */ 
+    top: 0;
+    left: 0;
+    outline: none;  /*no white border */ 
+}
+
+.loading-bar
+{
+    position:absolute;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: #a5d8f6;
+    transform: scaleX(0);
+    transform-origin:top left;
+    transition: transform 0.5s;
+    will-change: transform;  /*it ill improve performance, slightly better */
+}
+.loading-bar.ended   /* here is what will happen  */
+
+{
+    transform-origin: 100% 0;
+    transition: transform 1.5s ease-in-out;   /*timing function, fast begin and end, slow in between */
+    
+}
+
+/*# sourceMappingURL=main.css.map*/
